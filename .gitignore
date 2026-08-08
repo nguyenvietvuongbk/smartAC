@@ -1,0 +1,7 @@
+smartacountance/V0_onefile/build/
+smartacountance/V0_onefile/dist/
+smartacountance/V0_onefile/setup/
+smartacountance/V0_onefile/BIN/
+*.exe
+*.pkg
+*.7z
