@@ -1,0 +1,42 @@
+print(f"Đã cập nhật dữ liệu cho tổ: {team_name}")
+
+dsnc_path = get_DSNC_path()
+# 1. Đọc sheet NCList vào DataFrame
+df_nc = pd.read_excel(dsnc_path, sheet_name='NCList', engine='openpyxl')
+team_data = df_nc[df_nc['Tổ đội'] == team_name]
+manager_data = team_data[team_data['Công việc'] == 'Quản lý']
+#Lấy về năm công trình
+df2 = pd.read_excel(dsnc_path, sheet_name='Công trình', engine='openpyxl')
+nam_cong_trinh = str(df2.loc[0, "Năm thực hiện"])
+
+#Tải bảng chia lương cho tổ đội từ json
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    parent_dir = os.path.dirname(current_dir)
+    root_dir = os.path.dirname(parent_dir) 
+    dsnc_path = os.path.join(root_dir, 'Data', 'dulieuduan.xlsx')
+    json_path = os.path.join(root_dir, 'Data', team_name, f"bangchialuong_{team_name}.json")
+    # Đọc dữ liệu cũ nếu đã tồn tại
+    saved_data = {}
+    if os.path.exists(json_path) and os.path.getsize(json_path) > 0:
+        try:
+            with open(json_path, 'r', encoding='utf-8') as f:
+                saved_data = json.load(f)
+        except json.JSONDecodeError:
+            # Nếu file lỗi định dạng, reset lại về rỗng
+            saved_data = {}
+    else:
+        # Nếu file không tồn tại hoặc kích thước bằng 0, khởi tạo rỗng
+        saved_data = {}
+#tách các dữ liệu có ý nghĩa từ save_data
+value=saved_data.get(nv['ho_ten'], "4000000") # nv là bảng có trường 'ho_ten', nếu không có thì trả vể giá trị mặc định là 4000000
+
+#chuyển số thành chữ tiếng việt
+VND = convert_number_to_vietnamese(total_sum)
+
+
+thêm trường tin vào chi_tiet
+
+
+        chi_tiet = thanh_toan_record["chi_tiet_phuc_vu"]
+        for ct in chi_tiet:
+            ct['tai_khoan'] = get_so_tai_khoan(ct['ten'])

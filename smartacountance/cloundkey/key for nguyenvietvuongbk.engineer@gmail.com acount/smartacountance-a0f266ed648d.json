@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "smartacountance",
+  "private_key_id": "a0f266ed648d039383969fc61a0905b827a0c27d",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCrIRkLY8Jxnf7B\nngvXobgF/wfUrjmMgeoAi4eDnQ8I0WtW/4TYwVlov7pdf/wr+q2J6btwzyBmjR8X\nKJUTM/Dp6nru5SvwE3n+eYzn2at+zzWcXUekQ/gR4p7HQahdfPFbRkx0jAoHub1J\nSxa35DsCZzx9c+LMBLly4HdZQFljldjknJW/bgsil3dZAnySfQk76F42uFCYCfKC\nkLnVqn332Lkl4b8Q5T3qdoyTvtMVT+nf8YrUT67fFvIJlGjWdp+A1mU46eambF4/\noIny74pGXrKYF1mmMiipS6SDRLwG3dFPWCni7wW4WjvG/HHSFfAKVtcHrzKtOGdm\nJfm8GJpdAgMBAAECggEAJCSJ5xNrQlbVsuvf4Wt4899AtqUTZ38avoG5nc0Cm2Cr\nlITD+ImhihOQV2YMCvfXRhz05yb/11jv25LJJXSfabAJxcHmLT7X0ay3W1JoO5Ck\n6ID0/BcU4iYkVb4iwpf8W8Q1qpnXFnmepkezJSSRZ/kI2BAtMty+lCofWtzR5Eut\niN+l7u/mGlrSrzvdS5EdaejwgQhm65rXxdszvuU8aNpYAomgklKpHV+TvhR+SprO\nkujhuO9xN9GmAWUjyTwCMeKb8OrTHXSzMSZcQG7IrJWF3AGYuSUbw3CijSljuJHV\nVcfuPYYlIUQDsIVNrDvl011HoGlEDecj0IA2sDGNawKBgQDhsLUhwwpKKC7YSv6H\nC6wU1+cp5mBP4kpLNoxlk5q+9vcXYC6atHCQFhQM6vLFB00AcEyt69/q4g5np57D\nOwKCQo2nPvJdV9YqZWTmSrDVexTvP9+S77821+OvvRo6F3evQv3gfMP2aWmBsGM4\nMX5WLDdtptXH4aFR+egbxrMCdwKBgQDCHJG0Pt06m0VvAz28vRnc2uv0fzsH816V\njnOola2fugDhxtpqFFIRC8YoS3nFxif0Seowe0HGUF/xQsiLEa/02hmLuYjJfTKk\nAnMZQxzxAeHNmX9GKHJavWVw46X5S0gZRSyJ5tAikDwRSsOcwEqfkY0PXkyIBg8R\nEIrb0JsKywKBgHzKJU02t+DLGSPVS6lGJe8cdh/v1v80o1m1HqonlF/U1EkjkIFQ\nFhFFc+60lmmlIMmGTo+4JYaNWeOshhdy8G8v930rS/2azLuCdujzEZXoyWmEis2H\nLNZZRvbr+611PmM1CoVu1zfPj1v7ONFgZHenWTqTDg/ITVezc8iv9Fj/AoGBALan\ntX+brAcq9tI4hY6ljsGhC2k9k+muW7F1o2XeustTduL9gKdTScoafzOJmiO9i/k2\n2HUYdtNK7I0U36rlUOKhnGo7gvi+o7lrSK1b1s7+i2ExcG8vPjQehmcNADAuY8DL\ns9Zr6Cyt9qf650kINPAkQU1V2cQhl2niXBfuGwazAoGARqHrWi7ghNvocEu/zaPC\nH9tLoLfmPHQtqPoDv30INvrs/r4YZLE8sS8mtdThIljMy9ACv21/fVdBrjnxyBPV\nkGAZUqS8F9FfXg40Irbu++fxUYUDFH+izDm4OM5VtNzWabSF6LdO7F96ck9M2FCf\nPaoZzFL2tnVjWxs/ilh4woc=\n-----END PRIVATE KEY-----\n",
+  "client_email": "smartacountance@smartacountance.iam.gserviceaccount.com",
+  "client_id": "118376110932950386008",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/smartacountance%40smartacountance.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

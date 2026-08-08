@@ -1,0 +1,213 @@
+get_TTDA_JSON()
+get_DSNC_JSON()
+
+target_folder = get_path(os.path.join('Output',globalconfig.ketoan_nhancongthuengoai, team_name))
+
+#để biến dialog thành model dialog và chờ cập nhật dữ liệu xong và thoát dialog thì mới chạy code tiếp the
+def mo_dialog_hop_dong(team_name, data, file_path):
+    # Tạo cửa sổ con (không dùng root nữa mà dùng CTkToplevel)
+    dialog = ctk.CTkToplevel(root)
+    dialog.title("Nhập thông tin hợp đồng")
+    
+    # Kích hoạt Modal: Người dùng không thể thao tác cửa sổ chính khi cửa sổ này đang mở
+    dialog.grab_set() 
+    
+    # ... (Các code tạo giao diện, input trong dialog ở đây) ...
+    
+    # Quan trọng: trả về đối tượng dialog để chúng ta có thể đợi nó ở bên ngoài
+    return dialog
+
+def action_button_click():
+    # 1. Gọi hàm mở dialog
+    dialog_window = mo_dialog_hop_dong(team_name, data=data, file_path=file_path)
+    
+    # 2. Lệnh này sẽ khiến chương trình dừng lại tại đây 
+    # cho đến khi dialog_window bị đóng (người dùng bấm Save hoặc tắt X)
+    root.wait_window(dialog_window)
+    
+    # 3. Sau khi cửa sổ đóng, dòng code này mới được thực hiện
+    lam_moi_tree_hd()
+
+
+#cập nhật danh mục hợp đồng
+lam_moi_tree_hd()
+
+
+        # Cấu hình nút bấm với phong cách hiện đại
+        btn = tk.Button(
+            frame_button, 
+            text="Lưu nghiệm thu", 
+            command=luu,
+            bg="#007AFF",        # Màu xanh dương (hoặc màu thương hiệu của bạn)
+            fg="white",          # Chữ trắng
+            relief="flat",       # Bỏ viền nổi mặc định
+            padx=20,             # Tạo khoảng cách ngang để nút to hơn
+            pady=8,              # Tạo khoảng cách dọc
+            activebackground="#005bb5", # Màu khi nhấn chuột vào
+            activeforeground="white",
+            cursor="hand2"       # Hiển thị bàn tay khi di chuột vào
+        )
+        btn.grid(row=0, column=0)
+
+
+#tạo frame để chứa nút dưới cùng một form và trên nó là tree.pack(fill="both", expand=True)
+frame_button = tk.Frame(dialog)
+frame_button.pack(fill="x", **dialog_padding, side="bottom")
+tk.Button(frame_button, text="Lưu hợp đồng", command=cap_nhat_kl).pack(side="left")
+
+#to fit column in treeview
+auto_resize_columns(tree)
+
+#lấy về thông tin dòng được chọn của treeview
+selection = tree.selection()    
+selected_item = selection[0]
+cur_vals = list(tree.item(selected_item, "values"))
+gia_tri_can_dien = cur_vals[3]
+ent_kl_input.delete(0, "end")
+ent_kl_input.insert(0, gia_tri_can_dien)
+
+
+
+tree_hd.bind("<<TreeviewSelect>>", cap_nhat_so_hd_selected)
+
+
+target_folder_base = get_path(os.path.join('Output',globalconfig.ketoan_nhancongthuengoai))
+to_doi_path = get_path(os.path.join(os.path.join('Output', globalconfig.ketoan_nhancongthuengoai), team_name))
+folder_path = get_path(os.path.join(os.path.join('Data', globalconfig.ketoan_nhancongthuengoai), team_name))
+
+
+f"{int(float(cv['don_gia'])):,}" #Đây là ký tự định dạng của Python, tự động thêm dấu phẩy ngăn cách hàng nghìn cho số.
+
+tk.Button(dialog, text="Lưu", command=save_contract).pack()
+
+auto_resize_columns(tree)
+open_output()
+
+try:
+
+except Exception as e:
+        messagebox.showerror("Lỗi" : {str(e)}")
+
+
+# 1. Ẩn giao diện chính
+nctnpath = globalconfig.folder_nhancongthuengoai
+dsnc_path = get_path(os.path.join("Data", os.path.join(nctnpath,"dulieuduan.xlsx")))
+
+
+root.withdraw()
+
+#khôi phục cửa sổ chính
+globalconfig.root.deiconify()
+globalconfig.root.focus_force() # Đảm bảo cửa sổ chính được chọn ngay lập tức
+
+dialog.state('zoomed')
+# Tạo khung chứa menu bên trái
+sidebar = ctk.CTkFrame(master=root, width=200, corner_radius=0)
+sidebar.pack(side="left", fill="y")
+
+# Hàm tạo nút menu (để tránh lặp code)
+def create_menu_button(text, command):
+    return ctk.CTkButton(
+        sidebar,
+        text=text,
+        fg_color="transparent", # Trong suốt để hòa vào nền sidebar
+        text_color="black",
+        hover_color="#3B8ED0",
+        anchor="w",             # Căn trái chữ
+        height=40,
+        command=command
+    )
+
+# Thêm các mục vào menu
+create_menu_button("📄 Danh mục công việc", lambda: print("Chọn công việc")).pack(fill="x", padx=10, pady=5)
+create_menu_button("📋 Hợp đồng khoán", lambda: print("Chọn hợp đồng")).pack(fill="x", padx=10, pady=5)
+create_menu_button("⚙️ Cấu hình", lambda: print("Chọn cấu hình")).pack(fill="x", padx=10, pady=5)
+
+
+
+df = pd.read_excel(
+    dsnc_path, 
+    sheet_name='NCList', 
+    engine='openpyxl',
+    dtype={'MST': str, 'CMT/CCCD/Hộ chiếu': str}
+)
+
+df1['Công việc'] = df1['Công việc'].apply(lambda x: unicodedata.normalize('NFC', str(x)))
+team_name = unicodedata.normalize('NFC', team_name)
+
+totruong_ = "Tổ trưởng"
+totruong_ = unicodedata.normalize('NFC', totruong_)
+
+df1['Tổ đội'] = df1['Tổ đội'].apply(lambda x: unicodedata.normalize('NFC', str(x)))
+df1['Tổ đội'] = df1['Tổ đội'].str.strip()
+totruong_ = "Tổ trưởng"
+totruong_ = unicodedata.normalize('NFC', totruong_)
+team_name = unicodedata.normalize('NFC', team_name)
+team_name =team_name.strip()
+
+
+
+
+#chuẩn hóa unicode 
+team_data['Công việc_clean'] = team_data['Công việc'].apply(lambda x: unicodedata.normalize('NFC', str(x)))
+df1['Họ và tên'] = df1['Họ và tên'].apply(lambda x: unicodedata.normalize('NFC', str(x)))
+print(f"Đã cập nhật dữ liệu cho tổ: {team_name}")
+
+dsnc_path = get_DSNC_path()
+# 1. Đọc sheet NCList vào DataFrame
+df_nc = pd.read_excel(dsnc_path, sheet_name='NCList', engine='openpyxl')
+team_data = df_nc[df_nc['Tổ đội'] == team_name]
+manager_data = team_data[team_data['Công việc'] == 'Quản lý']
+#Lấy về năm công trình
+df2 = pd.read_excel(dsnc_path, sheet_name='Công trình', engine='openpyxl')
+nam_cong_trinh = str(df2.loc[0, "Năm thực hiện"])
+
+#Tải bảng chia lương cho tổ đội từ json
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    parent_dir = os.path.dirname(current_dir)
+    root_dir = os.path.dirname(parent_dir) 
+    dsnc_path = os.path.join(root_dir, 'Data', 'dulieuduan.xlsx')
+    json_path = os.path.join(root_dir, 'Data', team_name, f"bangchialuong_{team_name}.json")
+    # Đọc dữ liệu cũ nếu đã tồn tại
+    saved_data = {}
+    if os.path.exists(json_path) and os.path.getsize(json_path) > 0:
+        try:
+            with open(json_path, 'r', encoding='utf-8') as f:
+                saved_data = json.load(f)
+        except json.JSONDecodeError:
+            # Nếu file lỗi định dạng, reset lại về rỗng
+            saved_data = {}
+    else:
+        # Nếu file không tồn tại hoặc kích thước bằng 0, khởi tạo rỗng
+        saved_data = {}
+#tách các dữ liệu có ý nghĩa từ save_data
+value=saved_data.get(nv['ho_ten'], "4000000") # nv là bảng có trường 'ho_ten', nếu không có thì trả vể giá trị mặc định là 4000000
+
+#chuyển số thành chữ tiếng việt
+VND = convert_number_to_vietnamese(total_sum)
+
+
+thêm trường tin vào chi_tiet
+
+
+        chi_tiet = thanh_toan_record["chi_tiet_phuc_vu"]
+        for ct in chi_tiet:
+            ct['tai_khoan'] = get_so_tai_khoan(ct['ten'])
+
+
+# Ví dụ khi bạn mở file template trong thư mục 'templete':
+# Thay vì dùng: open("templete/file.html", "r")
+# Hãy dùng:
+#dsnc_path = get_resource_path(os.path.join("Data", "dulieuduan.xlsx"))
+dsnc_path = get_writable_path (os.path.join("Data", "dulieuduan.xlsx"))
+with open(file_path, "r", encoding="utf-8") as f:
+    data = f.read()
+
+#lấy về thư mục
+template_dir = get_resource_path('templete')
+#lấy về thư mục output để in ra
+target_folder_base = get_writable_path('Output')
+target_folder = get_writable_path(os.path.join('Output', team_name))
+pyinstaller --noconsole --onefile  ^
+ --add-data "templete;templete"  ^
+BIN/smartAC.py

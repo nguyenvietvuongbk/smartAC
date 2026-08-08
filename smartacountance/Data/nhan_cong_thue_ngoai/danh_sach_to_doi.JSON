@@ -1,0 +1,38 @@
+{
+    "Tổ lắp dựng": {
+        "workmen": [
+            {
+                "Họ và tên": "Nguyễn Văn Công",
+                "Ngày sinh": "15/8/1995",
+                "Giới tính": "Nam",
+                "MST": "4335353453235",
+                "CMT/CCCD/Hộ chiếu": "4335353453235",
+                "Ngày cấp": "18/9/2020",
+                "Nơi cấp": "CA Cà Mau",
+                "Số TK": "2635632472462",
+                "Tên ngân hàng": "Kiên Long Bank",
+                "Tên chủ TK": "Nguyễn Văn Công",
+                "Địa chỉ cư trú": "Cà Mau",
+                "Nơi làm việc chính": "LĐ Tự do",
+                "Công việc": "Tổ trưởng",
+                "STT": 1
+            },
+            {
+                "Họ và tên": "Huỳnh Tấn Phát",
+                "Ngày sinh": "5/8/1995",
+                "Giới tính": "Nam",
+                "MST": "33564779456",
+                "CMT/CCCD/Hộ chiếu": "33564779456",
+                "Ngày cấp": "5/6/2021",
+                "Nơi cấp": "CA TP HCM",
+                "Số TK": "62368962690",
+                "Tên ngân hàng": "HD Bank",
+                "Tên chủ TK": "Huỳnh Tấn Phát",
+                "Địa chỉ cư trú": "TP HCM",
+                "Nơi làm việc chính": "LĐ Tự do",
+                "Công việc": "Nhân công",
+                "STT": 2
+            }
+        ]
+    }
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+        body { font-family: 'Times New Roman', serif; font-size: 13pt; line-height: 1.5; color: #000; }
+        
+        .header { text-align: center; margin-bottom: 20px; }
+        .header-left { float: left; width: 60%; font-weight: bold; }
+        .header-right { float: right; width: 40%; border: 1px solid #000; padding: 5px; font-size: 10pt; text-align: center; }
+        
+        .title { text-align: center; font-weight: bold; font-size: 16pt; margin: 40px 0 10px 0; }
+        .sub-title { text-align: center; font-weight: bold; margin-bottom: 20px; }
+        
+        .field { margin: 10px 0; }
+        .underline { border-bottom: 1px dotted #000; display: inline-block; width: 300px; }
+        
+        .content { margin-top: 20px; text-align: justify; }
+        .signature-section { margin-top: 50px; text-align: center; float: right; width: 40%; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM<br>
+            <u>Độc lập - Tự do - Hạnh phúc</u>
+        </div>
+        <div class="header-right">
+            Mẫu số: 08/CK-TNCN<br>
+            (Ban hành kèm theo Thông tư số 80/2021/TT-BTC ngày 29/09/2021 của Bộ Tài chính)
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+
+    <div class="title">BẢN CAM KẾT</div>
+    <div class="sub-title">Về việc chi trả thu nhập của tổ chức, cá nhân chi trả thu nhập cho cá nhân cư trú không ký hợp đồng lao động hoặc ký hợp đồng lao động dưới 03 tháng</div>
+
+    <div class="field">Kính gửi: <b>{{ ten_to_chuc }}</b></div>
+    <div class="field">1. Tên tôi là: {{ ho_ten }}</div>
+    <div class="field">2. Mã số thuế: {{ mst }}</div>
+    <div class="field">3. Số CMND/CCCD/Hộ chiếu: {{ cmnd }}</div>
+    <div class="field">4. Địa chỉ cư trú: {{ dia_chi }}</div>
+
+    <div class="content">
+        Tôi cam kết rằng, năm 2026 tôi có tổng thu nhập từ tiền lương, tiền công thuộc diện phải khấu trừ thuế theo tỷ lệ 10%, nhưng theo ước tính tổng thu nhập trong năm của tôi không quá 132.000.000 triệu đồng.
+        <br><br>
+        Ghi bằng chữ: Một trăm ba mươi hai triệu đồng chẵn.
+        <br><br>
+        Vì vậy, tôi đề nghị {{ ten_to_chuc }} căn cứ vào bản cam kết này để không khấu trừ thuế TNCN khi trả thu nhập cho tôi.
+        <br><br>
+        Tôi cam đoan số liệu khai trên là đúng và chịu trách nhiệm trước pháp luật về những số liệu đã kê khai.
+    </div>
+
+    <div class="signature-section">
+        <i>Cẩm Khê, ngày ... tháng ... năm 2026</i><br>
+        <b>CÁ NHÂN CAM KẾT</b><br>
+        (Ký, ghi rõ họ tên)<br><br><br><br>
+        <b>{{ ho_ten }}</b>
+    </div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+giao diện thêm hợp đồng :def addcontract(team_name):
+       Chọn đơn vị thời gian sử dụng combobox thay vì texbox
+
+AI prompt:
+thay ent_unit từ text box sang combo box nạp sẵn list Giờ, Ngày, Tháng , Năm:     tk.Label(frame_info, text="Đơn vị thời gian:").grid(row=2, column=0); ent_unit = tk.Entry(frame_info); ent_unit.grid(row=2, column=1)
+
+result:
+# Import ttk nếu bạn chưa có ở đầu file
+    # from tkinter import ttk
+
+    # Thay vì dùng tk.Entry, ta dùng ttk.Combobox
+    tk.Label(frame_info, text="Đơn vị thời gian:").grid(row=2, column=0)
+    
+    # Định nghĩa danh sách các đơn vị
+    danh_sach_don_vi = ["Giờ", "Ngày", "Tháng", "Năm"]
+    
+    # Tạo Combobox
+    combo_unit = ttk.Combobox(frame_info, values=danh_sach_don_vi, state="readonly")
+    combo_unit.grid(row=2, column=1)
+    
+    # Mặc định chọn giá trị đầu tiên (ví dụ: "Ngày")
+    combo_unit.current(1)

@@ -1,0 +1,36 @@
+{
+    "so_hop_dong": "0001-2026-HĐGK",
+    "bat_dau": "10/9/2026",
+    "time_unit": "Ngày",
+    "duration": 50.0,
+    "tong_gia_tri": 2000000000.0,
+    "danh_sach_chi_tiet": [
+        {
+            "cong_viec": "Xây nền nhà Xưởng",
+            "khoi_luong": 1000.0,
+            "price": 1000000.0,
+            "thanh_tien": 1000000000.0
+        },
+        {
+            "cong_viec": "Xây tường nhà xưởng",
+            "khoi_luong": 1000.0,
+            "price": 1000000.0,
+            "thanh_tien": 1000000000.0
+        }
+    ],
+    "phu_luc": [
+        {
+            "ten_phu_luc": "PL001",
+            "ngay_ky": "08/08/2026",
+            "danh_sach_bo_sung": [
+                {
+                    "cong_viec": "Xây nền nhà Xưởng",
+                    "khoi_luong": 1000.0,
+                    "price": 1000000.0,
+                    "thanh_tien": 1000000000.0
+                }
+            ]
+        }
+    ],
+    "nghiem_thu": []
+}

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        @page { size: A4; margin: 1.5cm; }
+        body { font-family: 'Times New Roman', serif; font-size: 14px; }
+        .center { text-align: center; }
+        .font-bold { font-weight: bold; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid black; padding: 8px; vertical-align: middle; }
+        th { background-color: #f2f2f2; }
+        .text-left { text-align: left; }
+        .footer-space { height: 100px; }
+    </style>
+</head>
+<body>
+    <div class="font-bold">Tổ đội : {{ team_name }}</div>
+    
+    <h1 class="center">BẢNG CHIA THU NHẬP</h1>
+    <p class="center font-bold">Tháng ..../{{Nam}}</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 10%;">STT</th>
+                <th style="width: 35%;">Họ và tên</th>
+                <th style="width: 25%;">Tổng cộng</th>
+                <th style="width: 30%;">Thông tin tài khoản ngân hàng</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ct in chi_tiet %}
+            <tr>
+                <td class="center">{{ loop.index }}</td>
+                <td class="text-left">{{ ct.ten }}</td>
+                <td class="center">{{ "{:,.0f}".format(ct.so_tien_thuc_te) }}</td>
+                <td class="text-left">{{ get_so_tai_khoan(ct.ten) }}</td>
+            </tr>
+            {% endfor %}
+            <!-- Giữ trống thêm dòng nếu danh sách ít (tùy chọn) -->
+            <tr>
+                <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+            </tr>
+            <tr class="font-bold">
+                <td></td>
+                <td class="center">Tổng cộng</td>
+                <td class="center">{{ "{:,.0f}".format(tong_thuc_te_tong) }}</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p><i>Bằng chữ: {{ doc_so_thanh_chu(tong_thuc_te_tong) }}</i></p>
+
+    <div style="margin-top: 50px;">
+		<table style="border: none; margin-top: 50px;">
+			<tr style="border: none;">
+				<td style="border: none; width: 70%;"></td>
+				<td style="border: none; text-align: center;" class="font-bold">NGƯỜI LẬP</td>
+			</tr>
+			<!-- Khoảng cách cho chữ ký tay -->
+			<tr style="height: 50px;">
+				<td style="border: none;"></td>
+				<td style="border: none;"></td>
+			</tr>
+			<!-- Dòng tên đội trưởng -->
+			<tr style="border: none;">
+				<td style="border: none;"></td>
+				<td style="border: none; text-align: center;"><strong>{{ ten_doi_truong }}</strong></td>
+			</tr>
+		</table>
+    </div>
+</body>
+</html>

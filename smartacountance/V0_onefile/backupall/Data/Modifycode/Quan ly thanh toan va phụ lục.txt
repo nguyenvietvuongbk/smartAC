@@ -1,0 +1,153 @@
+Để giải quyết vấn đề quản lý Phụ lục hợp đồng (PLHĐ) mà vẫn đảm bảo tính toàn vẹn của dữ liệu nghiệm thu và thanh toán, cách tốt nhất là thay đổi cấu trúc file JSON hoặc cách tổ chức dữ liệu để hỗ trợ tính lịch sử.
+
+Dưới đây là phương án tối ưu:
+
+1. Cấu trúc lại file Hợp đồng để hỗ trợ Phụ lục
+Bạn nên thêm một danh sách phu_luc vào trong file hợp đồng gốc. Mỗi phụ lục sẽ là một mảng công việc mới hoặc các thay đổi bổ sung.
+
+{
+    "so_hop_dong": "0001-2026-HĐGK",
+    ...
+    "danh_sach_chi_tiet": [...],
+    "phu_luc": [
+        {
+            "ten_phu_luc": "Phụ lục số 01",
+            "ngay_ky": "10/06/2026",
+            "danh_sach_bo_sung": [
+                {
+                    "cong_viec": "Nhân công vận chuyển thép",
+                    "khoi_luong": 2.0,
+                    "price": 1000000.0,
+                    "thanh_tien": 2000000.0
+                }
+            ]
+        }
+    ]
+}
+2. Giải quyết bài toán Nghiệm thu
+Khi thực hiện nghiệm thu, bạn cần tạo một Hàm đồng bộ danh mục (Master List):
+
+Logic: Trước khi hiển thị bảng nghiệm thu, chương trình phải duyệt qua danh_sach_chi_tiet (Hợp đồng gốc) và tất cả các phần tử trong phu_luc.
+
+Tổng hợp: Tạo ra một danh sách "Công việc khả dụng" (Active List) bao gồm:
+
+Các công việc từ hợp đồng gốc.
+
+Cộng gộp các công việc từ các phụ lục (nếu tên công việc trùng nhau, cộng dồn khối lượng hợp đồng hoặc coi như một dòng mới).
+
+Lợi ích: Người nhập nghiệm thu sẽ luôn thấy được danh mục công việc đầy đủ nhất tính đến thời điểm hiện tại.
+
+3. Giải quyết bài toán Thanh toán
+Để quản lý thanh toán không bị rối, hãy tách biệt Dữ liệu nghiệm thu và Dữ liệu thanh toán:
+
+Sử dụng ID hoặc Key: Mỗi công việc (dù ở hợp đồng gốc hay phụ lục) nên có một id_cong_viec duy nhất.
+
+Hồ sơ nghiệm thu: File nghiem_thu_{so_hop_dong}_{ky_thu}_{number}.json sẽ lưu lũy kế theo id_cong_viec.
+
+Quy trình thanh toán:
+
+Khi thanh toán, bạn tạo file thanh_toan_{so_hop_dong}_{lan_thanh_toan}.json.
+
+File này sẽ tham chiếu đến so_hop_dong.
+
+Chương trình sẽ kiểm tra tất cả các file nghiệm thu đã được phê duyệt tính đến ngày đó.
+
+Tách nhóm giá trị:
+
+Giá trị Hợp đồng gốc = Tổng các công việc gốc đã nghiệm thu.
+
+Giá trị Phụ lục X = Tổng các công việc thuộc Phụ lục X đã nghiệm thu.
+
+Điều này giúp kế toán hoặc bộ phận quản lý nhìn thấy rõ: Công việc nào thuộc hợp đồng gốc, công việc nào phát sinh từ phụ lục.
+
+4. Lời khuyên về luồng dữ liệu (Workflow)
+Không sửa trực tiếp vào file Hợp đồng cũ: Khi có phụ lục, hãy ghi thêm vào danh sách phu_luc trong file JSON hiện tại. Việc này giúp giữ nguyên lịch sử hợp đồng ban đầu để đối chiếu.
+
+Kiểm tra tính hợp lệ: Trong bảng nghiệm thu, hãy đánh dấu (tag) các dòng công việc:
+
+Tag: Gốc
+
+Tag: PL01
+
+Tag: PL02
+
+Việc hiển thị này giúp người nghiệm thu biết khối lượng thực hiện đang được tính dựa trên văn bản nào.
+
+Tóm lại: Việc nghiệm thu và thanh toán sẽ dựa trên "Tổng khối lượng đã nghiệm thu của một công việc" (tổng hợp từ gốc + phụ lục) so sánh với "Tổng khối lượng hợp đồng" (cũng là gốc + phụ lục). Bằng cách quản lý qua id_cong_viec, dù phụ lục có thêm bao nhiêu công việc, bạn vẫn tính toán được chính xác số tiền cần thanh toán cho từng phần việc.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+vậy nghiệm thu có thế bao gồm một hoặc nhiều đợt tuy nhiên thanh toán thì phụ thuộc vào sự sẵn sàng về tài chính của chủ đầu tư , thậm chí một đợt thanh toán có thể không đủ theo như khối lượng nghiệm thu và có thể còn có cả phần giữ lại cho một đợt vậy thì sẽ quản lý thế nào
+ANS
+Để quản lý bài toán phức tạp này (Nghiệm thu theo kỳ, Thanh toán theo tài chính, và giữ lại bảo lãnh/tạm ứng), cách chuyên nghiệp nhất là tách biệt Dữ liệu khối lượng (Nghiệm thu) và Dữ liệu dòng tiền (Thanh toán) thành hai luồng dữ liệu độc lập nhưng liên kết với nhau qua so_hop_dong.
+
+Dưới đây là mô hình quản lý đề xuất:
+
+1. Phân tách Dữ liệu (Database Design)
+Bạn cần 3 loại file JSON khác nhau cho một hợp đồng:
+
+File Hợp đồng (hop_dong_...json): Lưu danh mục công việc gốc + danh sách phụ lục.
+
+File Nghiệm thu (nghiem_thu_...json): Lưu khối lượng thực tế đã xác nhận ở từng kỳ.
+
+Cấu trúc: {"ky_nghiem_thu": 1, "ngay_nghiem_thu": "...", "danh_sach_chi_tiet": [...]}.
+
+File Thanh toán (thanh_toan_...json): Lưu tiến độ dòng tiền.
+
+Cấu trúc file thanh toán:
+{
+    "so_thanh_toan": "TT-001",
+    "ngay_thanh_toan": "15/07/2026",
+    "ky_nghiem_thu_tham_chieu": [1, 2], // Thanh toán cho các kỳ nghiệm thu nào
+    "gia_tri_de_nghi": 100000000,
+    "gia_tri_thuc_te_nhan": 80000000,
+    "gia_tri_giu_lai": 20000000,
+    "ly_do_giu_lai": "Bảo lãnh thực hiện hợp đồng/Tiến độ"
+}
+2. Quản lý luồng Nghiệm thu
+Vì nghiệm thu có nhiều đợt, mỗi lần nghiệm thu là một "mốc" dữ liệu:
+
+Khi nhấn "Tạo nghiệm thu", hệ thống luôn lấy Lũy kế của đợt trước làm cơ sở.
+
+Lưu ý: Nghiệm thu chỉ để xác nhận "đã làm bao nhiêu". Không liên quan đến việc chủ đầu tư đã trả bao nhiêu tiền. Điều này giúp tránh tranh chấp về khối lượng.
+
+3. Quản lý luồng Thanh toán (Phần quan trọng nhất)
+Đây là nơi xử lý sự chênh lệch giữa Khối lượng đã nghiệm thu và Số tiền thực nhận:
+
+Bảng đối chiếu (Reconciliation Table): Bạn nên xây dựng một giao diện "Quản lý công nợ" hiển thị các cột:
+
+Cột A: Tổng giá trị đã nghiệm thu lũy kế (Dữ liệu từ các file Nghiệm thu).
+
+Cột B: Tổng giá trị đã thanh toán lũy kế (Dữ liệu từ các file Thanh toán).
+
+Cột C: Công nợ còn lại (A - B).
+
+Cột D: Giá trị đang bị giữ lại.
+
+Xử lý thanh toán "không đủ":
+
+Khi chủ đầu tư thanh toán thiếu, bạn nhập số tiền thực tế nhận (gia_tri_thuc_te_nhan).
+
+Hệ thống tự động ghi nhận phần chênh lệch (Giá trị nghiệm thu kỳ này - Số thực nhận) vào mục "Công nợ còn lại".
+
+Số dư này sẽ được cộng dồn vào các đợt thanh toán sau.
+
+4. Quy trình xử lý cho bạn
+Khi có nghiệm thu mới: Chương trình quét tất cả các file nghiem_thu_...json để hiển thị lũy kế cho người dùng.
+
+Khi làm thanh toán:
+
+Người dùng chọn các file nghiệm thu thuộc đợt thanh toán này (ví dụ chọn đợt 1 và đợt 2).
+
+Chương trình tính tổng giá trị nghiệm thu.
+
+Người dùng nhập số tiền thực nhận từ chủ đầu tư.
+
+Số tiền còn thiếu (nếu có) hoặc số tiền giữ lại (nếu có) sẽ được lưu vào file thanh_toan_...json.
+
+5. Gợi ý kỹ thuật cho code của bạn
+Không ghi đè: Hãy lưu mỗi lần thanh toán thành một file riêng (thanh_toan_teamname_sohd_lanX.json).
+
+Dashboard: Tạo một bảng tổng hợp (Summary) kéo dữ liệu từ cả 3 loại file trên. Bảng này sẽ giúp bạn trả lời câu hỏi: "Tổng khối lượng đã làm bao nhiêu, đã nhận tiền bao nhiêu, và còn bị nợ bao nhiêu?".
+
+Với cấu trúc này, bạn không cần quan tâm chủ đầu tư trả tiền theo kiểu gì, bạn chỉ cần quản lý Khối lượng (Quyền lợi của bạn) và Tiền nhận (Dòng tiền thực tế). Việc còn lại là phép trừ đơn giản để quản lý công nợ.
+
+Bạn có muốn tôi phác thảo cấu trúc một "Bảng tổng hợp công nợ" (Dashboard) để hiển thị các con số này không?

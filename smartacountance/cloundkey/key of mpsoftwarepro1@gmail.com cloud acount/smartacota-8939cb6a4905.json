@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "smartacota",
+  "private_key_id": "8939cb6a49057e6819c92bc7805b9f131b01b28c",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQC83oul+MVVGL8U\ndxDaJc7X4yJSbtqK2t9fTed1b3wSoGz6isxGRbRH1nbaSVhGbLK6iOxlEWLIjsh1\ndXFRNwyF6FKLrQiNjbHZtRPSmxOZ7fGTva3CyBwlMO15Asi/1ud8tFm5JR80WAkW\nGxxdLpiVe1szkb0sjQivxQvFDNy+hECrSBE75neZzGOTuWN7+oo7BHqujTUuNApz\n5UDyHWZBQefldtrLeTNZEpG651c+7UnvlRu6o2zacnpovdmtjeCM5C3i0c5Wy3Mk\nMXkAO001oJXDAIq+hCWFraqOonE6ScUBHLWQYgErRxJorUysCa8Bbhtl65tj31e/\n515w5pKFAgMBAAECggEATvIvKUcdJP7dEC7cynK3TSJR/Gb9zsDCUdH8h+f70sVg\nCDHwRQdp3gVVVNUHoxhYdQQ629wykGauf/qBTVNXVrnPlzbStmieCMRZ7tSHkvYU\n3o6QjTScHyeee9CgHSA1TrkMMAnGS1jpI2Zdqs2JViJj8uBeVLr3AJG647kGpFNm\nvS8Uixxk3DXNrhWOpKsCuvXfTWaTFs7QiuuMdB3w8cu6GozTDGfWbb6fW++DAG8D\nUX4dYzPxo/kkPNl/IWDCU+bz5nESaSFN+ZLHqxYNQGFtt1lTXAU629cvkzB6AMVF\n4NpCW5EIKseC/V4+9BpDCpsQJqa/3AcSyIdyAy8qGQKBgQD2Kek+pxbmQ1O/SZAL\nX/w3ylAcy351fMymjZ5FF+miWNkesC+rTU98LGr2RxP/P+5ZrHws5RMHMOPbe/v3\nOTKVc0mPdWHRQPzkeuKSKHE+a5dTMTPJ+T5+b2L+TDvHk07gTweYj5t5NKcBfuFM\nEOLY2xkIJPyi2VjIcKQ9NfJ7fwKBgQDEao0jtrmNCIumlvK0sthxTE8ejXUhF/B4\nbIJ2Qfw+0TVevvqdjE2clQeglkg+CS6QQ66dXrNSPnRvDysl6wWZ93Hp1Fr91LYj\nM/uM6CVWcYgXS12FV3+3Cdy+EVHskf9pCjlqxlF1QZhBdlX4ePmAhY7bukfbVvgh\n+bvOucsD+wKBgQDdkZnU//a3qdA+tEsIQgw2d06mrG+V9pAKNhxIWp67tzcuzS0L\nBlpODXj1VcLlFDlI090tV79J0LK3gyCnRP+Hz65dhy1VeSZnzUgUgHx1z8f0ZKwV\n1tduXHoBJMMF/0yWz+upYVFyxnav/PFzUxusT4F3eDtBpVqph+H9CorIpwKBgQCJ\nN0bSpFyMQmQNRXbY9fhvbjf3yCsDq427E1Mw+ngWCmGWhyTd2558vUBO164waIm3\nDxF1ryrnUepVi+tA2idXoJ5cFJZcrbVwcmhRz/wFn9rLK0NyW+ZFIQatYbwx4Ozl\nnNbv2QwfNmv/j4QPybPELYnXxxNcEC3YznZ9vR4u8QKBgQC7N0N+A2P5562ho4c2\nMncZvxgfV+wcrrynHiDAnnlqhcjz+kxX7VsIYlqN3A0gkj107Fau1BDmtKns7ZEV\nTNlEojHC1jFaYE4xPTU0lNR/GSykepiTDhCrcb+s6XMSV3ycJAZKPNw+1WdKuPF1\nYxqB3104Gk0Sl8mw0k3ufEJfDQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "otaupdate@smartacota.iam.gserviceaccount.com",
+  "client_id": "110802961307614332659",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/otaupdate%40smartacota.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        @page { size: A4 landscape; margin: 1cm; }
+        body { font-family: 'Times New Roman', serif; font-size: 12px; }
+        .header-title { text-align: center; font-weight: bold; font-size: 18px; text-transform: uppercase; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid black; padding: 5px; text-align: center; }
+        .text-left { text-align: left; padding-left: 5px; }
+        .signature-table { border: none; margin-top: 30px; width: 100%; }
+        .signature-table td { border: none; vertical-align: top; }
+    </style>
+</head>
+<body>
+    <div style="font-weight: bold;">{{ cong_ty }}</div>
+	<br>
+	<br>
+    <div class="header-title">BẢNG THANH TOÁN TIỀN THUÊ NGOÀI</div>
+    <div style="text-align: center;">Ngày ... tháng ... năm {{Nam}}</div>
+    <div style="text-align: center;">Số: {{ten_thanh_toan}}</div>
+    <p>Chi tiết thanh toán cho nhân công thực hiện tại công trình như sau:</p>
+
+    <table>
+        <tr style="background-color: #f2f2f2;">
+            <th>STT</th><th>Họ và tên người được thuê</th><th>Khối lượng thanh toán kỳ này</th>
+            <th>Giữ lại kỳ này</th><th>Công nợ kỳ trước</th><th>Khấu trừ tiền tạm ứng</th>
+            <th>Khấu trừ tiền thuế</th><th>Số tiền thanh toán lần này</th><th>Còn nợ lại</th><th>Tài khoản</th>
+        </tr>
+        {% for ct in chi_tiet %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td class="text-left">{{ ct.ten }}</td>
+            <td>{{ "{:,.0f}".format(ct.gia_tri_tt_ky_nay) }}</td>
+            <td>{{ "{:,.0f}".format(ct.gia_tri_giu_lai) }}</td>
+            <td>{{ "{:,.0f}".format(ct.cong_no_ky_truoc) }}</td>
+            <td>{{ "{:,.0f}".format(ct.khau_tru_tam_ung) }}</td>
+            <td>{{ "{:,.0f}".format(ct.khau_tru_thue) }}</td>
+            <td>{{ "{:,.0f}".format(ct.so_tien_thuc_te) }}</td>
+            <td>{{ "{:,.0f}".format(ct.con_no_lai) }}</td>
+            <td>{{ ct.tai_khoan }}</td>
+        </tr>
+        {% endfor %}
+        <tr style="font-weight: bold;">
+            <td colspan="2">Tổng</td>
+            <td>{{ "{:,.0f}".format(tong_tt_ky_nay) }}</td>
+            <td></td><td></td><td></td><td></td>
+            <td>{{ "{:,.0f}".format(tong_thuc_te) }}</td>
+            <td></td><td></td>
+        </tr>
+    </table>
+
+    <p><strong>Đề nghị Ban giám đốc cho thanh toán số tiền:</strong> {{ "{:,.0f}".format(tong_thuc_te) }}</p>
+    <p><strong>Tổng số tiền (viết bằng chữ):</strong> {{ tong_tien_chu }}</p>
+
+    <table class="signature-table">
+        <tr>
+            <td style="width: 33%;"><strong>Giám đốc</strong><br>(Ký, họ tên)</td>
+            <td style="width: 33%;"><strong>Kế toán trưởng</strong><br>(Ký, họ tên)</td>
+            <td style="width: 33%;"><strong>Người lập</strong><br>(Ký, họ tên)</td>
+        </tr>
+        <tr style="height: 80px;"><td></td><td></td><td></td></tr>
+        <tr>
+            <td><strong>{{ giam_doc }}</strong></td>
+            <td><strong>{{ ke_toan }}</strong></td>
+            <td><strong>{{ nguoi_lap }}</strong></td>
+        </tr>
+    </table>
+</body>
+</html>

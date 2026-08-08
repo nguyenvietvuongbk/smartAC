@@ -1,0 +1,9 @@
+-làm thế nào theo dõi tất cả các lần thanh toán cho tổ đội
+giữ lại  thanh toán còn lại phải thanh toán
+trong file thong tin du an hoặc bên trong thư mục của tổ đội sẽ xuất hiện file theo doi thanh toan + tên tổ đội
+trích xuát từ hợp đồng tổ đội -> tổng số tiền hợp đồng
+trích xuất từ file bảng chia thu nhập-> tổng số thu nhập trong đội bằng con số trong hợp đồng
+file chia thu nhập sẽ hình thành trong thư mục data của tổ đội
+file chia thu nhập -> file tổng hợp khối lượng công việc hoàn thành từng lần - nghiệm thu công việc
+                      file thanh toán khối lượng 
+                      

@@ -1,0 +1,84 @@
+Danh sách nhân công
+-> Họ và tên,MST, CCCD, Ngaycap, Noicap, Taikhoan, diachicutru, Noilamviecchinh, Congviec, Totruong
+
+...> In ra camket cho từng người [code 1] -> từng người ký
+....> In ra Phụ lục danh sách nhân công tổ [code 2]-> tổ trưởng ký
+......> In ra Hợp đồng giao khoán cho tổ trưởng ký [code 3]
+........> tạo ra bảng chia lương có tên từng người để thực hiện việc chia trên bảng [code 4]-> tổ trưởng ký
+.........> Tạo ra bảng thanh toán từng tháng , quản lý được phần thanh toán giữ lại với dấu vết trên bảng để thực hiện khấu trừ tháng kế tiếp [phần chỉ huy trưởng và giám đốc, tổ trưởng - Bên nhận thầu xác nhận [code 5]
+............> Tạo ra bảng thanh toán ủy nhiệm chi [giám đốc, kế toán trưởng] xác nhận [code 6]
+
+code 1 được lưu lại trong thư mục output : cho phép in tự động cả danh sách và chọn từng người trong danh sách để in 
+code 2 lưu lại trong thư mục output: in tự động từ cả danh sách, khi cần tổ trưởng ký lại
+
+ 
+---------------------------------------------------------------------------------------------------------------------------------------
+đọc file 
+xử lý hệ thống đáp ứng đa kịch bản
+
+
+advance:-  trong một dự án, mỗi tổ có thể ký nhiều hợp đồng với giá trị hợp đồng khác nhau
+        - Mỗi hợp đồng có thể sử dụng nhân công từ một hay nhiều tổ
+        - một tổ trưởng có thể là tổ trưởng của một hay nhiều tổ đội
+        - > dữ liệu về nhân lực :
+        -> dữ liệu tổ đội
+        -> dữ liệu hợp đồng
+cần quản trị nguồn nhân sự kết hợp quản trị tổ đội, quản trị hợp đồng, quản trị việc thực hiện hợp đồng, thanh toán
+
+nhân lực-> tổ đội: tạo tổ đội -> tạo hợp đồng công việc của tổ đội
+                              -> phụ lục danh sách tổ đội
+                              -> cam kết của tổ đội
+
+Quản lý theo hợp đồng
+-> tạo hợp đồng-> loại hợp đồng thuê khoán việc: số hợp đồng duy nhất: dự án = set[hợp đồng]- Bên giao thầu: bên nhân thầu 
+-> khai báo nhân công của hợp đồng -> add_nhân công -> from danh mục nhân công
+                                   -> xóa nhân công
+-> chọn hợp đồng để in
+-> chọn hợp đồng để add thanh toán
+-> báo cáo tình hình thực hiện hợp đồng
+
+-> sau khi ký hợp đồng thì số hợp đồng của tổ sẽ được lưu trong dulieuduan.xlsx
+   kèm theo bảng phụ lục giá hợp đồng = {công việc, đơn giá}
+   bảng chia lương sẽ được lập dựa trên việc -> phân phối thu nhập cho nhân công dựa trên đơn giá đầu việc
+   -> biên bản  tổng hợp giá trị công việc hoàn thành - tương đương biên bản nghiệm thu -> cập nhật bảng khối lượng công việc hoàn thành
+  
+
+-> công việc hợp đồng -> giá trị của hợp đồng -> in hợp đồng để ký -> lưu hợp đồng để theo dõi trong Data
+-> chia thu nhập theo công việc: người lao động trong tổ được chia thu nhập dựa trên hợp đồng (có thể có nhiều hợp đồng cho cùng một tổ)
+--------------------------------break thought----------------------------------------------------------------------
+
+  (danh_mục_công_việc: tên công việc{không trùng lặp}, đơn vị tính, đơn giá) -> file khai báo danh mục công việc_{team_name}.json (OK)
+  -> tạo mới hợp đồng : dialog thêm công việc, số lượng , số hợp đồng -> file phuluchopdong_{team_name}_{so_hop_dong}.json
+  -> in hợp đồng để tổ trưởng ký
+  -> in phụ lục giá công việc để giám đốc bên thuê và tổ trưởng bên nhận thầu nhân công ký
+  -> tạo bảng nghiệm thu công việc của hợp đồng: nghiemthu_{so_hop_dong}_đợt_No.json mỗi hợp đồng có thể có nhiều đợt nghiệm thu thời gian nghiệm thu, Khối lượng(%thực hiện kỳ trước, % thực hiện kỳ này, % lũy kế), giá trị (Hợp đồng, thực hiện kỳ trước, Thực hiện kỳ này, Lũy kế)      -> in bảng thanh toán tiền nhân công thuê ngoài  
+
+  -> hiển thị danh mục hợp đồng đã tạo , khối lượng đã thực hiện
+     -> in hợp đồng Hop_dong_{team_name}_{so_hop_dong}.pdf-> Output/{team_name} 
+     -> in phụ lục đơn giá công việc của hợp đồng phu_luc_gia_{team_name}_{so_hop_dong}.pdf->Output/{team_name}
+     -> lập bảng chia thu nhập -> lưu vào Data/{tổ đội}/chiathunhap_{số hợp đồng}.json-> chia_luong_{team_name}_{so_hop_dong}.pdf->Output/{team_name}
+     -> thêm biên bản nghiệm thu khối lượng công việc, chọn hợp đồng -> thêm biên bản nghiệm thu (bảng công việc hợp đồng-> KL hợp đồng_kl_hd, Thực hiện kỳ trước_kl_kt, Thực hiện kỳ này_kl_kn, lũy kế_kl_lk, đơn giá, giá trị thực hiện kỳ trước_gt_kt, giá trị thực hiện kỳ này, lũy kế_gt_lk
+     bảng nghiệm thu sau nối tiếp dữ liệu từ bảng trước, file nghiệm thu được lưu  nghiem_thu_{team_name}_{so_hop_dong}_No.json
+     
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

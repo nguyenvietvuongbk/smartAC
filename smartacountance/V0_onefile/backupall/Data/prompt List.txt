@@ -1,0 +1,272 @@
+hãy tạo chức năng quản lý hợp đồng cho tổ đội, khi gọi chức năng đó thì hiển thị ra bảng danh mục công việc được tải từ file công việc hợp đồng_{team_name}.json, có nút thêm, điều chỉnh nội dung, xóa công việc trong danh mục đó
+
+Hãy tạo chức năng thêm hợp đồng - addcontract(team_name) tạo dữ liệu cho một hợp đồng thuê khoán bao gồm số hợp đồng có định dạng xxxx-{nam}-HĐGK, giá trị xxxx được tự động tạo ra và lũy tiến để không trùng lặp ở mỗi lần tạo mới danh sách công việc, đơn vị tính, đơn giá, số lượng, giá trị hợp đồng, thời gian bắt đầu, đơn vị thời gian hợp đồng, duration  và lưu vào folder_path = os.path.join("Data", team_name), contract_path = os.path.join(folder_path, f"hop dong_{team_name}{số hợp đồng}.json"), sau khi hợp đồng được thêm thì cập nhật danh sách hợp đồng bao gồm số hợp đồng, thời gian bắt đầu, đơn vị thời gian, duration. danh sách công việc được lấy từ file khai báo danh mục công việc_{team_name}.json trong file này có định dạng sẵn ví dụ: [
+    {
+        "cong_viec": "Nhân công vệ sinh dầm",
+        "don_vi": "gói",
+        "don_gia": "6400000"
+    },
+    {
+        "cong_viec": "Nhân công trải nilong",
+        "don_vi": "gói",
+        "don_gia": "5500000"
+    },
+    {
+        "cong_viec": "Nhân công hàn dầm",
+        "don_vi": "gói",
+        "don_gia": "7000000"
+    }
+]
+              
+
+thêm vào sau code này [copy code......] đoạn code đọc tất cả các file contract_path = os.path.join(folder_path, f"hop dong_{team_name}_{so_hop_dong}.json") trong thư mục của tổ đội để hiển thị danh sách các hợp đồng đã tạo và nút cho phép in từng hợp đồng ra pdf
+
+thêm vào dialog trong hàm addcontract nút xem danh sách hợp đồng, bấm vào thì hiển thị danh sách hợp đồng.
+
+Hãy tạo chức năng tạo bảng nghiệm thu khối lượng trong đó có danh mục công việc theo hợp đồng, khối lượng công việc theo hợp đồng,  khối lượng hoàn thành kỳ trước, khối lượng hoàn thành kỳ này, lũy kế, giá trị nghiệm thu kỳ trước, giá trị nghiệm thu kỳ này, giá trị lũy kế, bảng nghiệm thu được lưu trong file Data/{team_name}/nghiem_thu_{team_name}_{so_hop_dong}_{number}.json, lần nghiệm thu sau được lấy dữ liệu lũy kế từ lần nghiệm thu trước, hợp đồng được chọn từ treeview được tạo ra từ code:     folder_path = os.path.join("Data", team_name)
+    list_win = tk.Toplevel()
+    list_win.title(f"Danh sách hợp đồng - {team_name}")
+    list_win.geometry("600x400")
+
+    # Bảng danh sách
+    columns = ("so_hd", "bat_dau", "unit", "duration", "gia_tri")
+    tree_hd = ttk.Treeview(list_win, columns=columns, show="headings")
+    tree_hd.heading("so_hd", text="Số HĐ"); tree_hd.heading("bat_dau", text="Bắt đầu"); tree_hd.heading("unit", text="đơn vị tg")
+    tree_hd.heading("duration", text="Duration"); tree_hd.heading("gia_tri", text="Tổng giá trị")
+    tree_hd.pack(fill="both", expand=True, padx=10, pady=10)
+
+    # Đọc tất cả file hợp đồng trong folder
+    for filename in os.listdir(folder_path):
+        if filename.startswith(f"hop dong_{team_name}") and filename.endswith(".json"):
+            file_path = os.path.join(folder_path, filename)
+            with open(file_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                tree_hd.insert("", "end", values=(
+                    data["so_hop_dong"], data["bat_dau"], data["time_unit"], 
+                    data["duration"], f"{data['tong_gia_tri']:,.0f}"
+                ), tags=(file_path,)) # Lưu đường dẫn file vào tag
+
+
+
+Cập nhật code sau để thêm menu ngữ cảnh với chức năng tạo nghiệm thu cho phần việc đã thực hiện: #capture the curent team_name and update global variable
+    globalconfig.curent_team_name = team_name
+    
+    folder_path = os.path.join("Data", team_name)
+    list_win = tk.Toplevel()
+    list_win.title(f"Danh sách hợp đồng - {team_name}")
+    list_win.geometry("600x400")
+
+    # Bảng danh sách
+    columns = ("so_hd", "bat_dau", "unit", "duration", "gia_tri")
+    tree_hd = ttk.Treeview(list_win, columns=columns, show="headings")
+    tree_hd.heading("so_hd", text="Số HĐ"); tree_hd.heading("bat_dau", text="Bắt đầu"); tree_hd.heading("unit", text="đơn vị tg")
+    tree_hd.heading("duration", text="Duration"); tree_hd.heading("gia_tri", text="Tổng giá trị")
+    tree_hd.pack(fill="both", expand=True, padx=10, pady=10)
+                              
+làm thế nào để click cuột trái, hoặc chuột phải vào tree_hd đều cập nhật giá trị so_hd vào biến globalconfig.so_hop_dong_selected
+ANS:
+Trước tiên, hãy tạo một hàm nhỏ để lấy dữ liệu từ dòng được chọn và gán vào biến global:
+def cap_nhat_so_hd_selected(event=None):
+    selected_items = tree_hd.selection()
+    if selected_items:
+        # Lấy giá trị của cột 'so_hd' (cột đầu tiên - index 0)
+        so_hd = tree_hd.item(selected_items[0])["values"][0]
+        globalconfig.so_hop_dong_selected = so_hd
+        # print(f"Đã chọn hợp đồng: {globalconfig.so_hop_dong_selected}") # Debug
+
+Bạn cần bind (gán) hàm này vào tree_hd như sau:
+# 1. Click chuột trái (hoặc dùng phím điều hướng)
+    tree_hd.bind("<<TreeviewSelect>>", cap_nhat_so_hd_selected)
+
+    # 2. Click chuột phải (cần cập nhật lại vùng chọn trước khi hiện menu)
+    def handle_right_click(event):
+        # Xác định dòng dưới con trỏ chuột
+        item = tree_hd.identify_row(event.y)
+        if item:
+            tree_hd.selection_set(item) # Chọn dòng đó
+            cap_nhat_so_hd_selected()    # Cập nhật biến global
+            menu_ngu_canh.post(event.x_root, event.y_root) # Hiện menu
+
+    # Gán cho chuột phải
+    tree_hd.bind("<Button-3>", handle_right_click)
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+với hơp đồng khi cần có thể thêm phụ lục công việc thì trong một file hơp đồng có cấu trúc ví dụ thế này {
+    "so_hop_dong": "0001-2026-HĐGK",
+    "bat_dau": "5/6/2026",
+    "time_unit": "Ngày",
+    "duration": "10",
+    "tong_gia_tri": 11900000.0,
+    "kldathuchien": "0",
+    "danh_sach_chi_tiet": [
+        {
+            "cong_viec": "Nhân công vệ sinh dầm",
+            "khoi_luong": 1.0,
+            "price": 6400000.0,
+            "thanh_tien": 6400000.0
+        },
+        {
+            "cong_viec": "Nhân công trải nilong",
+            "khoi_luong": 1.0,
+            "price": 5500000.0,
+            "thanh_tien": 5500000.0
+        },
+        {
+            "cong_viec": "Nhân công hàn dầm",
+            "khoi_luong": 0.0,
+            "price": 7000000.0,
+            "thanh_tien": 0.0
+        }
+    ]
+} thì khi thêm phụ lục sẽ giải quyết vấn đề nghiệm thu và quản lý việc thanh toán như thế nào
+ANS
+Bạn nên thêm một danh sách phu_luc vào trong file hợp đồng gốc. Mỗi phụ lục sẽ là một mảng công việc mới hoặc các thay đổi bổ sung.
+{
+    "so_hop_dong": "0001-2026-HĐGK",
+    ...
+    "danh_sach_chi_tiet": [...],
+    "phu_luc": [
+        {
+            "ten_phu_luc": "Phụ lục số 01",
+            "ngay_ky": "10/06/2026",
+            "danh_sach_bo_sung": [
+                {
+                    "cong_viec": "Nhân công vận chuyển thép",
+                    "khoi_luong": 2.0,
+                    "price": 1000000.0,
+                    "thanh_tien": 2000000.0
+                }
+            ]
+        }
+    ]
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+vậy nghiệm thu có thế bao gồm một hoặc nhiều đợt tuy nhiên thanh toán thì phụ thuộc vào sự sẵn sàng về tài chính của chủ đầu tư , thậm chí một đợt thanh toán có thể không đủ theo như khối lượng nghiệm thu và có thể còn có cả phần giữ lại cho một đợt vậy thì sẽ quản lý thế nào
+ANS
+cho phép thêm [n] phụ lục khối lượng vào hợp đồng
+mỗi khi nghiệm thu thì sẽ tạo lập master list (các việc trùng tên thì tự cộng dồn khối lượng) vào bảng danh mục công việc thanh toán - các việc khả dụng để tiến hành nghiệm thu khối lượng:
+file nghiem_thu_lần 1, lần 2, lần n
+phân tách file kiểm soát nghiệm thu với file kiểm soát thanh toán
+phân tách mỗi đợt thanh toán từ danh sách các bảng nghiệm thu tham chiếu [lần 1, lần 2,.., lần n] - giá trị kỳ này - giá trị giữ lại - giá trị thanh toán
+file thanh_toan_lần 1, lần 2, lần n
+-> xây dựng dashboard kiểm soát tiến trình thực hiện hợp đồng.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+từ danh sách hợp đồng tạo bởi code def hien_thi_danh_sach_hop_dong(team_name):
+    #capture the curent team_name and update global variable
+    globalconfig.curent_team_name = team_name
+    #globalconfig.so_hop_dong_selected
+    folder_path = os.path.join("Data", team_name)
+    list_win = tk.Toplevel()
+    list_win.title(f"Danh sách hợp đồng - {team_name}")
+    list_win.geometry("600x400")
+
+    # Bảng danh sách
+    columns = ("so_hd", "bat_dau", "unit", "duration", "gia_tri")
+    tree_hd = ttk.Treeview(list_win, columns=columns, show="headings")
+    tree_hd.heading("so_hd", text="Số HĐ"); tree_hd.heading("bat_dau", text="Bắt đầu"); tree_hd.heading("unit", text="đơn vị tg")
+    tree_hd.heading("duration", text="Duration"); tree_hd.heading("gia_tri", text="Tổng giá trị")
+    tree_hd.pack(fill="both", expand=True, padx=10, pady=10)
+    menu_ngu_canh = tk.Menu(list_win, tearoff=0)
+    menu_ngu_canh.add_command(label="Tạo nghiệm thu", command=lambda: btn_nghiem_thu_click())
+    menu_ngu_canh.add_command(label="Thêm phụ lục khối lượng", command=lambda: btn_nghiem_thu_click())
+    menu_ngu_canh.add_command(label="In phụ lục giá hợp đồng", command=lambda: btn_nghiem_thu_click())
+    menu_ngu_canh.add_command(label="In hợp đồng", command=lambda: btn_nghiem_thu_click()) hãy thêm menu ngữ cảnh thêm phụ lục khối lượng hợp đồng và ghi lại vào file 'hop dong_{team_name}_{so_hop_dong}' noi dung của phụ lục theo mẫu {
+    "so_hop_dong": "0001-2026-HĐGK",
+    ...
+    "danh_sach_chi_tiet": [...],
+    "phu_luc": [
+        {
+            "ten_phu_luc": "Phụ lục số 01",
+            "ngay_ky": "10/06/2026",
+            "danh_sach_bo_sung": [
+                {
+                    "cong_viec": "Nhân công vận chuyển thép",
+                    "khoi_luong": 2.0,
+                    "price": 1000000.0,
+                    "thanh_tien": 2000000.0
+                }
+            ]
+        }
+    ]
+}
+---------------------------------------------------------------------------------------------
+cập nhật def btn_them_phu_luc_click():
+        selected = tree_hd.selection()
+        if not selected:
+           messagebox.showwarning("Cảnh báo", "Vui lòng chọn hợp đồng!")
+           return
+    
+        file_path = tree_hd.item(selected[0])["tags"][0]
+    
+        # Mở cửa sổ nhập phụ lục
+        win_pl = tk.Toplevel()
+        win_pl.title("Thêm phụ lục hợp đồng") để tạo danh mục khối lượng công việc trong phụ lục bằng cách tải nội dung trong file Data/{team_name}/khai báo danh mục công việc_{team_name}.JSON với mẫu [
+    {
+        "cong_viec": "Nhân công vệ sinh dầm",
+        "don_vi": "gói",
+        "don_gia": "6400000"
+    },
+    {
+        "cong_viec": "Nhân công trải nilong",
+        "don_vi": "gói",
+        "don_gia": "5500000"
+    },
+    {
+        "cong_viec": "Nhân công hàn dầm",
+        "don_vi": "gói",
+        "don_gia": "7000000"
+    }
+] để cho ngưới dùng đẩy vào file hợp đồng đang được chọn.
+-----------------------------------------------------------------------------------------------------
+mở file catalog_path = os.path.join(folder_path, f"khai báo danh mục công việc_{team_name}.json") và update code sau def btn_them_phu_luc_click():
+        selected = tree_hd.selection()
+        if not selected:
+           messagebox.showwarning("Cảnh báo", "Vui lòng chọn hợp đồng!")
+           return
+    
+        file_path = tree_hd.item(selected[0])["tags"][0]
+        
+        # Mở cửa sổ nhập phụ lục
+        win_pl = tk.Toplevel()
+        win_pl.title("Thêm phụ lục hợp đồng")
+    
+        # [Giả sử bạn có giao diện nhập tên phụ lục, ngày ký, và danh sách công việc]
+        # Sau khi nhấn Lưu, thực hiện code bên dưới:
+        def luu_phu_luc():
+            with open(file_path, "r", encoding="utf-8") as f:
+                 data = json.load(f)
+            
+            new_phu_luc = {
+               "ten_phu_luc": ent_ten_pl.get(),
+               "ngay_ky": ent_ngay_ky.get(),
+               "danh_sach_bo_sung": [] # Danh sách lấy từ bảng nhập liệu
+            }
+        
+            # Đảm bảo cấu trúc phu_luc tồn tại
+            if "phu_luc" not in data:
+               data["phu_luc"] = []
+            
+            data["phu_luc"].append(new_phu_luc)
+        
+            # Ghi đè lại file
+            with open(file_path, "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False, indent=4)
+            
+            messagebox.showinfo("Thành công", "Đã cập nhật phụ lục vào hợp đồng!")
+            win_pl.destroy()
+
+        tk.Button(win_pl, text="Lưu Phụ lục", command=luu_phu_luc).pack() để thêm phụ lục công việc có dạng     "phu_luc": [
+        {
+            "ten_phu_luc": "Phụ lục số 01",
+            "ngay_ky": "10/06/2026",
+            "danh_sach_bo_sung": [
+                {
+                    "cong_viec": "Nhân công vận chuyển thép",
+                    "khoi_luong": 2.0,
+                    "price": 1000000.0,
+                    "thanh_tien": 2000000.0
+                }
+            ]
+
+
+----------------------------------------------------------------------
+hãy hoàn thiện hàm def mo_cua_so_thanh_toan(file_path, edit_index=None): để nhập tổng giá trị thanh toán < tổng giá trị nghiệm thu - tổng giá trị đã thanh toán, hiển thị bảng nhập thanh toán bao gồm danh sách tổ đội được lấy bằng code df1 = pd.read_excel(dsnc_path, sheet_name='NCList', engine='openpyxl');team_data = df1[df1['Tổ đội'] == team_name], nhập: giá trị thanh toán kỳ này, giá trị giữ lại, Công nợ kỳ trước, khấu trừ tiền đã tạm ứng/ thanh toán, khấu trừ tiền thuế , số tiền thanh toán kỳ này, còn nợ lại = giá trị thanh toán kỳ này - giá trị giữ lại + công nợ kỳ trước - khấu trừ tiền đã tạm ứng/thanh toán - khấu trừ tiền thuế - số tiền thanh toán kỳ này. lưu dữ liệu thành toán vào file hợp đồng có đường dẫn file_path, tổng các giá trị thanh toán kỳ này của tổ đội phải nhỏ hơn tổng giá trị đã nghiệm thu 

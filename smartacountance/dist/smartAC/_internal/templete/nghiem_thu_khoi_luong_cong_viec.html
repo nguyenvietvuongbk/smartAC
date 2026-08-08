@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+		@page {
+			size: A4 landscape; /* Đặt khổ giấy A4 nằm ngang */
+			margin: 1cm;       /* Có thể tùy chỉnh lề */
+		}
+        body { font-family: 'Times New Roman', serif; font-size: 13px; margin: 20px; }
+        .header-title { text-align: center; font-weight: bold; text-transform: uppercase; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid black; padding: 5px; text-align: center; }
+        .header-bg { background-color: #f2f2f2; font-weight: bold; }
+        .text-left { text-align: left; }
+        .signature-table { border: none; margin-top: 30px; }
+        .signature-table td { border: none; vertical-align: top; }
+		.signature-container {
+        page-break-inside: avoid; /* Ngăn bảng bị cắt giữa trang */
+        display: block;           /* Đảm bảo nó được coi là một khối */
+    }
+    </style>
+</head>
+<body>
+    <div style="font-weight: bold;">{{cong_ty}}</div>
+    <div class="header-title" style="margin-top: 20px; font-size: 16px;">BẢNG TỔNG HỢP GIÁ TRỊ KHỐI LƯỢNG CÔNG VIỆC HOÀN THÀNH</div>
+    <div style="text-align: center; margin-bottom: 10px;">Tháng {{thang}} năm {{ Nam }}</div>
+    <br>
+    <table>
+        <tr class="header-bg">
+            <th rowspan="2">STT</th>
+            <th rowspan="2">Nội dung công việc</th>
+            <th rowspan="2">Đơn vị</th>
+            <th colspan="4">Khối lượng</th>
+            <th rowspan="2">Đơn giá HĐ</th>
+            <th colspan="4">Giá trị</th>
+            <th rowspan="2">Ghi chú</th>
+        </tr>
+        <tr class="header-bg">
+            <th>HĐ</th>
+            <th>Thực hiện kỳ trc</th>
+            <th>Thực hiện kỳ này</th>
+            <th>Lũy kế</th>
+            <th>Hợp đồng</th>
+            <th>Thực hiện kỳ trc</th>
+            <th>Thực hiện kỳ này</th>
+            <th>Lũy kế</th>
+        </tr>
+        <!-- Hàng số thứ tự hướng dẫn -->
+        <tr style="font-style: italic;">
+            <td>1</td><td>2</td><td>3</td><td>4</td><td></td><td></td><td>5</td><td>6</td><td>7</td><td></td><td>8</td><td>9</td><td></td>
+        </tr>
+        
+        {% for ct in chi_tiet %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td class="text-left">{{ ct.cong_viec }}</td>
+            <td>{{ ct.don_vi }}</td>
+            <td>{{ ct.kl_hd }}</td>
+            <td>{{ ct.kl_truoc }}</td>
+            <td>{{ ct.kl_nay }}</td>
+            <td>{{ ct.kl_luy_ke }}</td>
+            <td>{{ "{:,.0f}".format(ct.don_gia) }}</td>
+            <td>{{ "{:,.0f}".format(ct.gia_tri_hd) }}</td>
+            <td>{{ "{:,.0f}".format(ct.gia_tri_truoc) }}</td>
+            <td>{{ "{:,.0f}".format(ct.gia_tri_nay) }}</td>
+            <td>{{ "{:,.0f}".format(ct.gia_tri_luy_ke) }}</td>
+            <td></td>
+        </tr>
+        {% endfor %}
+        
+        <tr class="header-bg">
+            <td colspan="8">Tổng giá trị</td>
+            <td>{{ "{:,.0f}".format(tong_hd) }}</td>
+            <td>{{ "{:,.0f}".format(tong_truoc) }}</td>
+            <td>{{ "{:,.0f}".format(tong_nay) }}</td>
+            <td>{{ "{:,.0f}".format(tong_luy_ke) }}</td>
+            <td></td>
+        </tr>
+    </table>
+
+	<div class="signature-container">
+		<table class="signature-table" style="width: 100%; border: none; margin-top: 30px;">
+			<!-- Hàng tiêu đề -->
+			<tr>
+				<td colspan="2" style="width: 50%; font-weight: bold; text-align: center;">ĐẠI DIỆN BÊN GIAO THẦU</td>
+				<td colspan="2" style="width: 50%; font-weight: bold; text-align: center;">ĐẠI DIỆN BÊN NHẬN THẦU</td>
+			</tr>
+			<!-- Hàng chức danh -->
+			<tr>
+				<td style="width: 25%; font-weight: bold; text-align: center;">GIÁM ĐỐC</td>
+				<td style="width: 25%; font-weight: bold; text-align: center;">CHỈ HUY TRƯỞNG CÔNG TRÌNH</td>
+				<td colspan="2" style="width: 50%; font-weight: bold; text-align: center;"></td>
+			</tr>
+			<!-- Khoảng cách cho chữ ký (để tên nằm cách chức danh) -->
+			<tr style="height: 60px;">
+				<td colspan="4"></td>
+			</tr>
+			<!-- Hàng tên người ký -->
+			<tr>
+				<td style="width: 25%; font-weight: bold; text-align: center;">{{ Ten_Giam_Doc }}</td>
+				<td style="width: 25%; font-weight: bold; text-align: center;">{{ Ten_Chi_Huy_Truong }}</td>
+				<td colspan="2" style="width: 50%; font-weight: bold; text-align: center;">{{ Ten_Dai_Dien_Nhan_Thau }}</td>
+			</tr>
+		</table>
+	</div>	
+</body>
+</html>
